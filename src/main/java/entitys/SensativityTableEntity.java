@@ -1,17 +1,17 @@
 package entitys;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
- * Created by root on 11.07.2017.
+ * Created by root on 13.07.2017.
  */
 @Entity
 @Table(name = "sensativity_table", schema = "biosensor_schema", catalog = "")
 public class SensativityTableEntity {
     private int id;
     private Integer value;
-    private Date time;
+    private Timestamp time;
 
     @Id
     @Column(name = "id")
@@ -35,11 +35,11 @@ public class SensativityTableEntity {
 
     @Basic
     @Column(name = "time")
-    public Date getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 

@@ -1,7 +1,7 @@
 import jssc.SerialPortException;
 import sensor_connect.BioSensorAPI;
 
-import java.util.Date;
+import static dao.DaoManager.*;
 
 public class Main {
 
@@ -11,13 +11,14 @@ public class Main {
             BioSensorAPI sensor = new BioSensorAPI();
             sensor.initializePort();
             while (i < 100) {
-                Date date = new Date();
                 int val = sensor.levelBioActivity();
-                System.out.println(date.toString() + "\t" + val);
+                setValue(val);
                 Thread.sleep(1000);
+                i++;
             }
-            i++;
             sensor.closePort();
+            System.out.println(getDate());
+            System.out.println(getValue());
 
         } catch (SerialPortException e) {
             System.out.println("Ошибка: " + e);
