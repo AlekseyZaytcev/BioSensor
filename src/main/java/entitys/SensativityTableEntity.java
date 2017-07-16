@@ -8,6 +8,9 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "sensativity_table", schema = "biosensor_schema", catalog = "")
+@NamedQueries(
+        @NamedQuery(name = "GET_VALUE_BY_DATE", query = "SELECT s FROM SensativityTableEntity s WHERE s.time BETWEEN :timestart AND :timeend")
+)
 public class SensativityTableEntity {
     private int id;
     private Integer value;
