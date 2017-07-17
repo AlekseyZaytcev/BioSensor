@@ -1,29 +1,22 @@
-import jssc.SerialPortException;
-import sensor_connect.BioSensorAPI;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-import static dao.DaoManager.*;
+public class Main extends Application {
 
-public class Main {
-
-    public static void main(String[] args) throws InterruptedException {
-        int i = 0;
-        try {
-            BioSensorAPI sensor = new BioSensorAPI();
-            sensor.initializePort();
-            while (i < 100) {
-                int val = sensor.levelBioActivity();
-                setValue(val);
-                Thread.sleep(1000);
-                i++;
-            }
-            sensor.closePort();
-            System.out.println(getDate());
-            System.out.println(getValue());
-
-        } catch (SerialPortException e) {
-            System.out.println("Ошибка: " + e);
-
-        }
+    public static void main(String[] args) throws Exception {
+        launch(args);
     }
 
+    @Override
+    public void start(Stage stage) throws Exception {
+        String fxmlFile = "/fxml/main.fxml";
+        FXMLLoader loader = new FXMLLoader();
+        Parent root = (Parent) loader.load(getClass().getResourceAsStream(fxmlFile));
+        stage.setTitle("JavaFX and Maven");
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 }
