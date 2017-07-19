@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
-   <children>
-      <Label layoutX="274.0" layoutY="169.0" prefHeight="9.0" prefWidth="53.0" text="HELLO !!!!" />
-   </children>
+<AnchorPane prefHeight="528.0" prefWidth="614.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60" fx:controller="controller.MainController">
+    <children>
+        <LineChart fx:id="lineChart" layoutY="-1.0" prefHeight="408.0" prefWidth="614.0" title="LINE CHART">
+            <xAxis>
+                <CategoryAxis label = "My X Label" side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis label = "My Y Label" side="LEFT" />
+            </yAxis>
+        </LineChart>
+        <Button layoutX="250.0" layoutY="453.0" mnemonicParsing="false" onAction="#btn" text="Load Chart" />
+    </children>
 </AnchorPane>
