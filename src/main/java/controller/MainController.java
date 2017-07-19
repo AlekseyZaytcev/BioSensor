@@ -29,10 +29,13 @@ public class MainController {
     public void startBioactivity() {
         if (startFlag == false) {
             startFlag = true;
-            startButton.setText("Stop");
+            startButton.setText("Started");
+            startButton.setId("green");
         } else {
             startFlag = false;
-            startButton.setText("Start");
+            startButton.setText("Stopped");
+            startButton.setId("red");
+            startButton.setId("round-red");
         }
     }
 }
