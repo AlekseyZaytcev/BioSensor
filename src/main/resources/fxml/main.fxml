@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="528.0" prefWidth="614.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60" fx:controller="controller.MainController">
+<AnchorPane prefHeight="528.0" prefWidth="614.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
     <children>
-        <LineChart fx:id="lineChart" layoutY="-1.0" prefHeight="408.0" prefWidth="614.0" title="LINE CHART">
+        <LineChart fx:id="lineChart" layoutY="60.0" prefHeight="408.0" prefWidth="614.0" title="Перья тренда">
             <xAxis>
-                <CategoryAxis label = "My X Label" side="BOTTOM" />
+                <CategoryAxis label="Time data" side="BOTTOM" />
             </xAxis>
             <yAxis>
-                <NumberAxis label = "My Y Label" side="LEFT" />
+                <NumberAxis label="Simens, ℧" side="LEFT" />
             </yAxis>
         </LineChart>
-        <Button layoutX="250.0" layoutY="453.0" mnemonicParsing="false" onAction="#btn" text="Load Chart" />
+        <Button fx:id="startButton" layoutX="559.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#startBioactivity" text="Start" />
     </children>
 </AnchorPane>

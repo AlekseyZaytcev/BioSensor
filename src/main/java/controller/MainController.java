@@ -4,18 +4,35 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 
 public class MainController {
-    @FXML LineChart<String, Number> lineChart;
+    private Boolean startFlag = false;
+    @FXML
+    LineChart<String, Number> lineChart;
+    @FXML
+    private Button startButton;
 
-    public void btn(ActionEvent event) {
+    @FXML
+    public void initialize() {
         lineChart.getData().clear();
         XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
         series.getData().add(new XYChart.Data<String, Number>("Jan", 200));
         series.getData().add(new XYChart.Data<String, Number>("Feb", 500));
         series.getData().add(new XYChart.Data<String, Number>("Mar", 300));
         series.getData().add(new XYChart.Data<String, Number>("Apr", 600));
-        series.setName("Month Pay");
+        series.setName("Bioactivity");
         lineChart.getData().add(series);
+    }
+
+    @FXML
+    public void startBioactivity() {
+        if (startFlag == false) {
+            startFlag = true;
+            startButton.setText("Stop");
+        } else {
+            startFlag = false;
+            startButton.setText("Start");
+        }
     }
 }
