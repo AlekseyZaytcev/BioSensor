@@ -1,33 +1,25 @@
 package dao;
 
+import Time.MyTime;
 import entitys.SensativityTableEntity;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 /**
  * Created by root on 11.07.2017.
  */
 public class DaoManager {
-
-    private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    static MyTime time = new MyTime();
 
     public static void setValue(int value) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.beginTransaction();
         SensativityTableEntity entity = new SensativityTableEntity();
-
-        Calendar calendar = Calendar.getInstance();
-        java.util.Date now = calendar.getTime();
-        java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-
-        entity.setTime(currentTimestamp);
+        Timestamp currentTime = time.currentTime();
+        entity.setTime(currentTime);
         entity.setValue(value);
         session.save(entity);
         session.getTransaction().commit();
@@ -38,9 +30,9 @@ public class DaoManager {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         List<SensativityTableEntity> result = null;
         try {
-            Timestamp timestampStart = new Timestamp(format.parse(timestart).getTime());
-            Timestamp timestampEnd = new Timestamp(format.parse(timeend).getTime());
-            result = session.createNamedQuery("GET_VALUE_BY_DATE").getResultList();
+            Timestamp timestampStart = time.timeStart(timestart);
+            Timestamp timestampEnd = time.timeEnd(timeend);
+            result = session.createNamedQuery("GET_VALUE_BY_DATE").setParameter("timestart", timestampStart).setParameter("timeend", timestampEnd).getResultList();
         } catch (ParseException e) {
             e.printStackTrace();
         }
