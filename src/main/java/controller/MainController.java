@@ -3,8 +3,12 @@ package controller;
 import Time.MyTime;
 import dao.DaoManager;
 import entitys.SensativityTableEntity;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import jssc.SerialPortException;
@@ -15,15 +19,21 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class MainController {
-    BioSensorAPI sensorAPI = new BioSensorAPI();
-    DaoManager manager = new DaoManager();
-    MyTime myTime = new MyTime();
-     ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-     ScheduledFuture<?> task;
-     private Boolean statusFlag = true;
+
+    private BioSensorAPI sensorAPI = new BioSensorAPI();
+    private DaoManager manager = new DaoManager();
+    private MyTime myTime = new MyTime();
+
+    private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+    private ScheduledFuture<?> task;
+    private Boolean statusFlag = true;
+
+    private CategoryAxis xAxis = new CategoryAxis();
+    private CategoryAxis yAxis = new CategoryAxis();
+
 
     @FXML
-    LineChart<String, Integer> lineChart;
+    private LineChart<String, String> lineChart = new LineChart<String, String>(xAxis, yAxis);;
     @FXML
     private Button startButton;
     @FXML
@@ -31,18 +41,38 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        XYChart.Series<String, Integer> series = new XYChart.Series<String, Integer>();
+        startButton.setId("round-red");
+        stopButton.setId("green");
+        stopButton.setVisible(false);
+        createChart();
+    }
+
+    private Parent createChart() {
+        XYChart.Series<String, String> series = new XYChart.Series<String, String>();
+        series.setName("Bioactivity");
         List<SensativityTableEntity> entity = manager.getBioEntity(myTime.weeks2AgoTime().toString(), myTime.currentTime().toString());
         for (int i = 0; i < entity.size(); i++) {
             Timestamp time = entity.get(i).getTime();
             Integer value = entity.get(i).getValue();
-            series.getData().add(new XYChart.Data<String, Integer>(time.toString(), value));
+            series.getData().add(new XYChart.Data<String, String>(time.toString(), value.toString()));
         }
-        series.setName("Bioactivity");
         lineChart.getData().add(series);
-        startButton.setId("round-red");
-        stopButton.setId("green");
-        stopButton.setVisible(false);
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(5000);
+
+                for (int i = 0; i < 15; i++) {
+                    int finalI = i;
+//                    Platform.runLater(() -> series.getData().add(new XYChart.Data<>(1 + finalI, 1 + finalI)));
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        return lineChart;
     }
 
     @FXML
@@ -58,19 +88,20 @@ public class MainController {
                 } catch (SerialPortException e) {
                     e.printStackTrace();
                 }
-                if (statusFlag == false){
+                if (statusFlag == false) {
                     task.cancel(false);
                 }
             }
         };
         task = executor.scheduleWithFixedDelay(dbPush, 0, 1, TimeUnit.SECONDS);
-            startButton.setVisible(false);
-            stopButton.setVisible(true);
-            statusFlag = true;
+        startButton.setVisible(false);
+        stopButton.setVisible(true);
+        statusFlag = true;
 
     }
+
     @FXML
-    public void stopBioactivity(){
+    public void stopBioactivity() {
         startButton.setVisible(true);
         stopButton.setVisible(false);
         statusFlag = false;
