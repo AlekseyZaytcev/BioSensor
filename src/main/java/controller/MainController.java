@@ -56,7 +56,7 @@ public class MainController {
         yAxis.setLowerBound(300);
         yAxis.setUpperBound(1000);
         yAxis.setTickUnit(100);
-        
+
         createChart();
     }
 
@@ -78,6 +78,7 @@ public class MainController {
                             Timestamp time = entity2.get(i).getTime();
                             Integer value = entity2.get(i).getValue();
                             Platform.runLater(() -> series.getData().add(new XYChart.Data<>(time.toString(), value)));
+                            Platform.runLater(()-> series.getData().remove(0,1));
                             Thread.sleep(1000);
                         }
                     }
