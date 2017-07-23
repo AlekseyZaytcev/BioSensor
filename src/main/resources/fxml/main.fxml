@@ -7,18 +7,18 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="528.0" prefWidth="614.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane prefHeight="588.0" prefWidth="1137.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
     <children>
-        <LineChart fx:id="lineChart" layoutY="60.0" prefHeight="408.0" prefWidth="614.0" title="Перья тренда">
+        <LineChart fx:id="lineChart" layoutX="24.0" layoutY="68.0" prefHeight="452.0" prefWidth="1086.0" title="Перья тренда">
             <xAxis>
-                <CategoryAxis label="Time data" fx:id="xAxis" side="BOTTOM" />
+                <CategoryAxis label="Time data" side="BOTTOM" fx:id="xAxis" />
             </xAxis>
             <yAxis>
-                <NumberAxis label="Simens, ℧" fx:id="yAxis" side="LEFT" />
+                <NumberAxis fx:id="yAxis" label="Simens, ℧" side="LEFT" />
             </yAxis>
         </LineChart>
-        <Button fx:id="startButton" layoutX="534.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#startBioactivity" stylesheets="@../stylesheet/buttons.css" text="Stopped" />
-        <Label layoutX="487.0" layoutY="18.0" prefHeight="17.0" prefWidth="41.0" text="Status:" />
-      <Button fx:id="stopButton" layoutX="537.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#stopBioactivity" stylesheets="@../stylesheet/buttons.css" text="Started" />
+        <Button fx:id="startButton" layoutX="1052.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#startBioactivity" stylesheets="@../stylesheet/buttons.css" text="Stopped" />
+        <Label layoutX="999.0" layoutY="18.0" prefHeight="17.0" prefWidth="41.0" text="Status:" />
+      <Button fx:id="stopButton" layoutX="1055.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#stopBioactivity" stylesheets="@../stylesheet/buttons.css" text="Started" />
     </children>
 </AnchorPane>

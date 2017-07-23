@@ -50,7 +50,10 @@ public class MainController {
         stopButton.setId("green");
         stopButton.setVisible(false);
         series.setName("Bioactivity");
+
         lineChart.setCreateSymbols(false);
+        lineChart.verticalGridLinesVisibleProperty().setValue(false);
+        lineChart.horizontalGridLinesVisibleProperty().setValue(false);
 
         yAxis.setAutoRanging(false);
         yAxis.setLowerBound(300);
