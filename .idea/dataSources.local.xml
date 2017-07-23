@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="biosensor_schema@localhost" uuid="8e5da4cc-b781-4faf-b56e-5408313dd54d">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <introspection-schemas>*:biosensor_schema</introspection-schemas>
+    </data-source>
+  </component>
+</project>

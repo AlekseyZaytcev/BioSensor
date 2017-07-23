@@ -26,6 +26,13 @@ public class MyTime {
         return time;
     }
 
+    public Timestamp secondsAgoTime(Integer seconds) {
+        Calendar calendar = Calendar.getInstance();
+        java.util.Date now = calendar.getTime();
+        Timestamp time = new Timestamp(now.getTime() - seconds * 1000);
+        return time;
+    }
+
     public Timestamp timeStart(String time) throws ParseException {
         Timestamp timestamp = new Timestamp(format.parse(time).getTime());
         return timestamp;

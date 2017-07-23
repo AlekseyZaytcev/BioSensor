@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import jssc.SerialPortException;
@@ -16,7 +15,9 @@ import sensor_connect.BioSensorAPI;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class MainController {
 
@@ -28,12 +29,12 @@ public class MainController {
     private ScheduledFuture<?> task;
     private Boolean statusFlag = true;
 
+    private XYChart.Series<String, Integer> series = new XYChart.Series<String, Integer>();
     private CategoryAxis xAxis = new CategoryAxis();
-    private CategoryAxis yAxis = new CategoryAxis();
-
-
+    private Integer yAxis;
     @FXML
-    private LineChart<String, String> lineChart = new LineChart<String, String>(xAxis, yAxis);;
+    private LineChart<String, Integer> lineChart;
+    ;
     @FXML
     private Button startButton;
     @FXML
@@ -44,28 +45,30 @@ public class MainController {
         startButton.setId("round-red");
         stopButton.setId("green");
         stopButton.setVisible(false);
+        series.setName("Bioactivity");
         createChart();
     }
 
     private Parent createChart() {
-        XYChart.Series<String, String> series = new XYChart.Series<String, String>();
-        series.setName("Bioactivity");
         List<SensativityTableEntity> entity = manager.getBioEntity(myTime.weeks2AgoTime().toString(), myTime.currentTime().toString());
         for (int i = 0; i < entity.size(); i++) {
             Timestamp time = entity.get(i).getTime();
             Integer value = entity.get(i).getValue();
-            series.getData().add(new XYChart.Data<String, String>(time.toString(), value.toString()));
+            series.getData().add(new XYChart.Data<String, Integer>(time.toString(), value));
         }
         lineChart.getData().add(series);
 
         new Thread(() -> {
             try {
-                Thread.sleep(5000);
-
-                for (int i = 0; i < 15; i++) {
-                    int finalI = i;
-//                    Platform.runLater(() -> series.getData().add(new XYChart.Data<>(1 + finalI, 1 + finalI)));
-                    Thread.sleep(1000);
+                while (statusFlag == true) {
+                    Thread.sleep(5000);
+                    List<SensativityTableEntity> entity2 = manager.getBioEntity(myTime.secondsAgoTime(5).toString(), myTime.currentTime().toString());
+                    for (int i = 0; i < entity2.size(); i++) {
+                        Timestamp time = entity2.get(i).getTime();
+                        Integer value = entity2.get(i).getValue();
+                        Platform.runLater(() -> series.getData().add(new XYChart.Data<>(time.toString(), value)));
+                        Thread.sleep(1000);
+                    }
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -97,7 +100,6 @@ public class MainController {
         startButton.setVisible(false);
         stopButton.setVisible(true);
         statusFlag = true;
-
     }
 
     @FXML
