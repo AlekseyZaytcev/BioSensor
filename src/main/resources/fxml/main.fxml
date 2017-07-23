@@ -11,7 +11,7 @@
     <children>
         <LineChart fx:id="lineChart" layoutX="24.0" layoutY="68.0" prefHeight="452.0" prefWidth="1086.0" title="Перья тренда">
             <xAxis>
-                <CategoryAxis label="Time data" side="BOTTOM" fx:id="xAxis" />
+                <CategoryAxis label="Time" side="BOTTOM" fx:id="xAxis" />
             </xAxis>
             <yAxis>
                 <NumberAxis fx:id="yAxis" label="Simens, ℧" side="LEFT" />
@@ -20,5 +20,7 @@
         <Button fx:id="startButton" layoutX="1052.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#startBioactivity" stylesheets="@../stylesheet/buttons.css" text="Stopped" />
         <Label layoutX="999.0" layoutY="18.0" prefHeight="17.0" prefWidth="41.0" text="Status:" />
       <Button fx:id="stopButton" layoutX="1055.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#stopBioactivity" stylesheets="@../stylesheet/buttons.css" text="Started" />
+      <Label fx:id="valueLabel" layoutX="102.0" layoutY="503.0" prefHeight="17.0" prefWidth="30.0" />
+      <Label layoutX="24.0" layoutY="503.0" prefHeight="17.0" prefWidth="70.0" text="Current level:" />
     </children>
 </AnchorPane>

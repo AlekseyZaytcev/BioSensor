@@ -11,6 +11,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import jssc.SerialPortException;
 import sensor_connect.BioSensorAPI;
 
@@ -43,6 +44,8 @@ public class MainController {
     private Button startButton;
     @FXML
     private Button stopButton;
+    @FXML
+    private Label valueLabel;
 
     @FXML
     public void initialize() {
@@ -71,7 +74,6 @@ public class MainController {
             series.getData().add(new XYChart.Data<String, Number>(time.toString(), value));
         }
         lineChart.getData().add(series);
-
         new Thread(() -> {
             try {
                 while (true) {
@@ -82,6 +84,7 @@ public class MainController {
                             Integer value = entity2.get(i).getValue();
                             Platform.runLater(() -> series.getData().add(new XYChart.Data<>(time.toString(), value)));
                             Platform.runLater(()-> series.getData().remove(0,1));
+                            Platform.runLater(()-> valueLabel.setText(value.toString()));
                             Thread.sleep(1000);
                         }
                     }
