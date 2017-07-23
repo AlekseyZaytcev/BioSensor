@@ -60,15 +60,15 @@ public class MainController {
 
         new Thread(() -> {
             try {
-                while (statusFlag == true) {
-                    Thread.sleep(5000);
+                while (true) {
                     List<SensativityTableEntity> entity2 = manager.getBioEntity(myTime.secondsAgoTime(5).toString(), myTime.currentTime().toString());
+                    if (statusFlag == true){
                     for (int i = 0; i < entity2.size(); i++) {
                         Timestamp time = entity2.get(i).getTime();
                         Integer value = entity2.get(i).getValue();
                         Platform.runLater(() -> series.getData().add(new XYChart.Data<>(time.toString(), value)));
                         Thread.sleep(1000);
-                    }
+                    }}
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
