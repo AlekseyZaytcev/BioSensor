@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import jssc.SerialPortException;
@@ -29,11 +30,14 @@ public class MainController {
     private ScheduledFuture<?> task;
     private Boolean statusFlag = true;
 
-    private XYChart.Series<String, Integer> series = new XYChart.Series<String, Integer>();
-    private CategoryAxis xAxis = new CategoryAxis();
-    private Integer yAxis;
+    private XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
+
     @FXML
-    private LineChart<String, Integer> lineChart;
+    NumberAxis yAxis;
+    @FXML
+    CategoryAxis xAxis;
+    @FXML
+    private LineChart<String, Number> lineChart;
     ;
     @FXML
     private Button startButton;
@@ -46,6 +50,13 @@ public class MainController {
         stopButton.setId("green");
         stopButton.setVisible(false);
         series.setName("Bioactivity");
+        lineChart.setCreateSymbols(false);
+
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(300);
+        yAxis.setUpperBound(1000);
+        yAxis.setTickUnit(100);
+        
         createChart();
     }
 
@@ -54,7 +65,7 @@ public class MainController {
         for (int i = 0; i < entity.size(); i++) {
             Timestamp time = entity.get(i).getTime();
             Integer value = entity.get(i).getValue();
-            series.getData().add(new XYChart.Data<String, Integer>(time.toString(), value));
+            series.getData().add(new XYChart.Data<String, Number>(time.toString(), value));
         }
         lineChart.getData().add(series);
 
@@ -62,13 +73,14 @@ public class MainController {
             try {
                 while (true) {
                     List<SensativityTableEntity> entity2 = manager.getBioEntity(myTime.secondsAgoTime(5).toString(), myTime.currentTime().toString());
-                    if (statusFlag == true){
-                    for (int i = 0; i < entity2.size(); i++) {
-                        Timestamp time = entity2.get(i).getTime();
-                        Integer value = entity2.get(i).getValue();
-                        Platform.runLater(() -> series.getData().add(new XYChart.Data<>(time.toString(), value)));
-                        Thread.sleep(1000);
-                    }}
+                    if (statusFlag == true) {
+                        for (int i = 0; i < entity2.size(); i++) {
+                            Timestamp time = entity2.get(i).getTime();
+                            Integer value = entity2.get(i).getValue();
+                            Platform.runLater(() -> series.getData().add(new XYChart.Data<>(time.toString(), value)));
+                            Thread.sleep(1000);
+                        }
+                    }
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -11,10 +11,10 @@
     <children>
         <LineChart fx:id="lineChart" layoutY="60.0" prefHeight="408.0" prefWidth="614.0" title="Перья тренда">
             <xAxis>
-                <CategoryAxis label="Time data" side="BOTTOM" />
+                <CategoryAxis label="Time data" fx:id="xAxis" side="BOTTOM" />
             </xAxis>
             <yAxis>
-                <NumberAxis label="Simens, ℧" side="LEFT" />
+                <NumberAxis label="Simens, ℧" fx:id="yAxis" side="LEFT" />
             </yAxis>
         </LineChart>
         <Button fx:id="startButton" layoutX="534.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#startBioactivity" stylesheets="@../stylesheet/buttons.css" text="Stopped" />
