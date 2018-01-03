@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="588.0" prefWidth="1137.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
     <children>
-        <LineChart fx:id="lineChart" layoutX="24.0" layoutY="68.0" prefHeight="452.0" prefWidth="1086.0" title="Перья тренда">
+        <LineChart fx:id="lineChart" layoutX="24.0" layoutY="68.0" prefHeight="452.0" prefWidth="1086.0" title="Биологическая активность QW за 2 недели">
             <xAxis>
                 <CategoryAxis label="Time" side="BOTTOM" fx:id="xAxis" />
             </xAxis>

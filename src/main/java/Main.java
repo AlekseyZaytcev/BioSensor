@@ -3,6 +3,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
@@ -21,6 +22,8 @@ public class Main extends Application {
             root.setOnMouseClicked(event -> primaryStage.hide());
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
+            primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("hire.png")));
+            primaryStage.setTitle("BiosenorViewer");
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();

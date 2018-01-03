@@ -52,7 +52,7 @@ public class MainController {
         startButton.setId("round-red");
         stopButton.setId("green");
         stopButton.setVisible(false);
-        series.setName("Bioactivity");
+        series.setName("Bioactivity, Simens");
 
         lineChart.setCreateSymbols(false);
         lineChart.verticalGridLinesVisibleProperty().setValue(false);
