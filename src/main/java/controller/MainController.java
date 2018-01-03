@@ -59,8 +59,8 @@ public class MainController {
         lineChart.horizontalGridLinesVisibleProperty().setValue(false);
 
         yAxis.setAutoRanging(false);
-        yAxis.setLowerBound(300);
-        yAxis.setUpperBound(1000);
+        yAxis.setLowerBound(200);
+        yAxis.setUpperBound(800);
         yAxis.setTickUnit(100);
 
         createChart();
