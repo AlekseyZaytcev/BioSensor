@@ -11,8 +11,6 @@ import java.util.Date;
  * Created by root on 20.07.2017.
  */
 public class MyTime {
-    private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");//2018-01-23 10:31:00.279
-
     public Date currentTime() {
         Date now = new Date();
         return now;

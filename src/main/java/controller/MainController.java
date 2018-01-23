@@ -106,8 +106,9 @@ public class MainController {
                 try {
                     sensorAPI.initializePort();
                     Integer value = sensorAPI.levelBioActivity();
+                    Date date = new Date();
                     sensorAPI.closePort();
-                    manager.setValue(value);
+                    manager.setValue(value, date);
                 } catch (SerialPortException e) {
                     e.printStackTrace();
                 }

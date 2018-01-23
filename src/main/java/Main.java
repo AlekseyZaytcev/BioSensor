@@ -1,3 +1,4 @@
+import dao.HibernateOGMUtil;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,7 @@ public class Main extends Application {
             Platform.setImplicitExit(false);
             javax.swing.SwingUtilities.invokeLater(this::addAppToTray);
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
-            root.setOnMouseClicked(event -> primaryStage.hide());
+//            root.setOnMouseClicked(event -> primaryStage.hide());
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("hire.png")));

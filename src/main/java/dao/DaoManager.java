@@ -14,12 +14,11 @@ import java.util.List;
 public class DaoManager {
     static MyTime time = new MyTime();
 
-    public static void setValue(int value) {
+    public static void setValue(int value, Date date) {
         EntityManagerFactory factory = HibernateOGMUtil.getEntityManagerFactory();
         EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
         SensativityTableEntity entity = new SensativityTableEntity();
-        Date date = new Date();
         entity.setDate(date);
         entity.setValue(value);
         manager.persist(entity);
