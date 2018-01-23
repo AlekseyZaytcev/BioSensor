@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.hibernate.hql:hibernate-hql-parser:1.4.0.Final">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate.hql/hibernate-hql-parser/1.4.0.Final/bba705a06af022da43fb9b698ae2aef17a4f1f2b/hibernate-hql-parser-1.4.0.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate.hql/hibernate-hql-parser/1.4.0.Final/b6b7c4e31856b2ddced961d6c4cbb4e5d9b785c8/hibernate-hql-parser-1.4.0.Final-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

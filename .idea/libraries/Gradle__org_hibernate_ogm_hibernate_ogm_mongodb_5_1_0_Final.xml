@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.hibernate.ogm:hibernate-ogm-mongodb:5.1.0.Final">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate.ogm/hibernate-ogm-mongodb/5.1.0.Final/6e633c7ef50eb4a7c8cfdff72dd1327076c1c654/hibernate-ogm-mongodb-5.1.0.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate.ogm/hibernate-ogm-mongodb/5.1.0.Final/a52a78637a37ca090b8728c135c1f3de10c8a227/hibernate-ogm-mongodb-5.1.0.Final-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
