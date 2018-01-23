@@ -1,6 +1,5 @@
 package dao;
 
-import Time.MyTime;
 import entitys.SensativityTableEntity;
 
 import javax.persistence.EntityManager;
@@ -12,9 +11,7 @@ import java.util.List;
  * Created by root on 11.07.2017.
  */
 public class DaoManager {
-    static MyTime time = new MyTime();
-
-    public static void setValue(int value, Date date) {
+    public void setValue(int value, Date date) {
         EntityManagerFactory factory = HibernateOGMUtil.getEntityManagerFactory();
         EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
@@ -26,7 +23,7 @@ public class DaoManager {
         manager.close();
     }
 
-    public static List<SensativityTableEntity> getBioEntity(Date timeStart, Date timeEnd) {
+    public List<SensativityTableEntity> getBioEntity(Date timeStart, Date timeEnd) {
         EntityManagerFactory factory = HibernateOGMUtil.getEntityManagerFactory();
         EntityManager manager = factory.createEntityManager();
         List<SensativityTableEntity> result = null;

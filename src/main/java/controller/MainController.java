@@ -15,12 +15,13 @@ import javafx.scene.control.Label;
 import jssc.SerialPortException;
 import sensor_connect.BioSensorAPI;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class MainController {
 
@@ -28,11 +29,15 @@ public class MainController {
     private DaoManager manager = new DaoManager();
     private MyTime myTime = new MyTime();
 
-    private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-    private ScheduledFuture<?> task;
-    private Boolean statusFlag = true;
+    private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(2);
+    private ScheduledFuture<?> task1;
+    private ScheduledFuture<?> task2;
+    private Boolean statusFlag = false;
 
     private XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
+    private ReadWriteLock lock = new ReentrantReadWriteLock();
+    private Date syncDate;
+    private Integer syncValue;
 
     @FXML
     NumberAxis yAxis;
@@ -74,50 +79,58 @@ public class MainController {
             Integer value = entity.get(i).getValue();
             series.getData().add(new XYChart.Data<String, Number>(date.toString(), value));
         }
+        syncValue = entity.get(entity.size() - 1).getValue();
+        syncDate = entity.get(entity.size() - 1).getDate();
         lineChart.getData().add(series);
-        new Thread(() -> {
-            try {
-                while (true) {
-                    List<SensativityTableEntity> entity2 = manager.getBioEntity(myTime.secondsAgoTime(5), myTime.currentTime());
-                    if (statusFlag == true) {
-                        for (int i = 0; i < entity2.size(); i++) {
-                            Date date = entity.get(i).getDate();
-                            Integer value = entity2.get(i).getValue();
-                            Platform.runLater(() -> series.getData().add(new XYChart.Data<>(date.toString(), value)));
-                            Platform.runLater(()-> series.getData().remove(0,1));
-                            Platform.runLater(()-> valueLabel.setText(value.toString()));
-                            Thread.sleep(1000);
-                        }
+        Runnable drowChartTask = new Runnable() {
+            @Override
+            public void run() {
+                if (statusFlag == true) {
+
+                    try {
+                        lock.readLock().lock();
+                        Date date = syncDate;
+                        Integer value = syncValue;
+                        lock.readLock().unlock();
+                        Platform.runLater(() -> series.getData().add(new XYChart.Data<>(date.toString(), value)));
+                        Platform.runLater(() -> series.getData().remove(0, 1));
+                        Platform.runLater(() -> valueLabel.setText(value.toString()));
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        System.out.println(e);
                     }
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
-        }).start();
+        };
+        task1 = executor.scheduleWithFixedDelay(drowChartTask, 1, 1, TimeUnit.SECONDS);
 
         return lineChart;
     }
 
     @FXML
     public void startBioactivity() {
-        Runnable dbPush = new Runnable() {
+        Runnable dbPushTask = new Runnable() {
             @Override
             public void run() {
-                try {
-                    sensorAPI.initializePort();
-                    Integer value = sensorAPI.levelBioActivity();
-                    Date date = new Date();
-                    sensorAPI.closePort();
-                    manager.setValue(value, date);
-                } catch (SerialPortException e) {
-                    e.printStackTrace();
-                }
-                if (statusFlag == false) {
-                    task.cancel(false);
+                if (statusFlag == true) {
+
+                    try {
+                        lock.writeLock().lock();
+                        sensorAPI.initializePort();
+                        Integer value = sensorAPI.levelBioActivity();
+                        Date date = new Date();
+                        sensorAPI.closePort();
+                        syncDate = date;
+                        syncValue = value;
+                        lock.writeLock().unlock();
+                        manager.setValue(value, date);
+                    } catch (SerialPortException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
-        task = executor.scheduleWithFixedDelay(dbPush, 0, 1, TimeUnit.SECONDS);
+        task2 = executor.scheduleWithFixedDelay(dbPushTask, 0, 1, TimeUnit.SECONDS);
         startButton.setVisible(false);
         stopButton.setVisible(true);
         statusFlag = true;
